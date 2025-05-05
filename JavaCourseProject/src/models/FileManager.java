@@ -7,12 +7,12 @@ import java.util.List;
 public class FileManager {
     private static final String DATA_FOLDER = "data/";
 
-    public static List<String>  readFile(String fileName) throws IOException {
+    public static List<String>  readFile(String fileName)  {
         List<String> lines = new ArrayList<>();
         String path = DATA_FOLDER + fileName;
 
-        try {
-            BufferedReader reader = new BufferedReader((new FileReader(path)));
+        try (BufferedReader reader = new BufferedReader((new FileReader(path)))){
+
             String line;
             while((line = reader.readLine()) != null) {
                     lines.add(line);
@@ -25,11 +25,17 @@ public class FileManager {
         return lines;
     }
 
-    public static void writeFile(String fileName, List<String> content) throws IOException {
+    public static void writeInFile(String fileName, List<String> content) {
         String path = DATA_FOLDER + fileName;
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+
+            File directory = new File(DATA_FOLDER);
+            if (!directory.exists()) {
+                directory.mkdirs(); // Creates the folder if it doesn't exist
+            }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))){
+
 
             for (String line:content) {
                 writer.write(line);
