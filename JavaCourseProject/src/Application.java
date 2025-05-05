@@ -14,10 +14,10 @@ public class Application {
                 Arrays.asList("ID", "Name", "Job"),
                 Arrays.asList("1", "Steve Johnson", "Driver"),
                 Arrays.asList("2", "Alex Ford", "Construction worker"),
-                Arrays.asList("3", "Peter Griffin", "F1 Racer")
+                Arrays.asList("3", "Peter Tompson", "F1 Racer")
         );
-        List<String> formattedData =  TableFormatter.formatData(persons);
-        FileManager.writeInFile("persons.txt", formattedData);
+        List<String> formattedPersonsData =  TableFormatter.formatData(persons);
+        FileManager.writeInFile("persons.txt", formattedPersonsData);
 
         List<List<String>> events = Arrays.asList(
                 Arrays.asList("ID", "Name", "City"),
@@ -26,7 +26,7 @@ public class Application {
                 Arrays.asList("3", "Parade", "Rome")
         );
 
-        List<String> formattedEventsdData =  TableFormatter.formatData(events);
-        FileManager.writeInFile("events.txt", formattedEventsdData);
+        List<String> formattedEventsData =  TableFormatter.formatData(events);
+        FileManager.writeInFile("events.txt", formattedEventsData);
     }
 }
