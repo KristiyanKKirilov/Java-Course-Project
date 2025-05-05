@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
-    public static List<String>  readFile(String path) throws IOException {
+    private static final String DATA_FOLDER = "data/";
+
+    public static List<String>  readFile(String fileName) throws IOException {
         List<String> lines = new ArrayList<>();
+        String path = DATA_FOLDER + fileName;
 
         try {
             BufferedReader reader = new BufferedReader((new FileReader(path)));
@@ -22,7 +25,9 @@ public class FileManager {
         return lines;
     }
 
-    public static void writeFile(String path, List<String> content) throws IOException {
+    public static void writeFile(String fileName, List<String> content) throws IOException {
+        String path = DATA_FOLDER + fileName;
+
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 
