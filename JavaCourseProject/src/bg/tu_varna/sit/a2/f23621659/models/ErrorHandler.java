@@ -1,4 +1,4 @@
-package models;
+package bg.tu_varna.sit.a2.f23621659.models;
 
 import java.io.IOException;
 

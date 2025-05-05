@@ -1,9 +1,10 @@
-import models.FileManager;
-import models.TableFormatter;
+package bg.tu_varna.sit.a2.f23621659;
+
+import bg.tu_varna.sit.a2.f23621659.models.FileManager;
+import bg.tu_varna.sit.a2.f23621659.models.TableFormatter;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args)
