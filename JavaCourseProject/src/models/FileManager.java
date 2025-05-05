@@ -16,7 +16,7 @@ public class FileManager {
             }
         } catch(IOException ex)
         {
-
+            ErrorHandler.handleIOException(ex, "reading " + path);
         }
 
         return lines;
@@ -31,7 +31,7 @@ public class FileManager {
                 writer.newLine();
             }
         } catch (IOException ex) {
-
+            ErrorHandler.handleIOException(ex, "writing in " + path);
         }
     }
 }
