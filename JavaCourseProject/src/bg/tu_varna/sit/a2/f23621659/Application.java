@@ -29,5 +29,11 @@ public class Application {
 
         List<String> formattedEventsData =  TableFormatter.formatData(events);
         FileManager.writeInFile("events.txt", formattedEventsData);
+
+        List<String> outputData = FileManager.readFile("persons.txt");
+        for(String data: outputData)
+        {
+            System.out.println(data);
+        }
     }
 }

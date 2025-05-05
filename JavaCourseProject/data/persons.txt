@@ -3,5 +3,5 @@
 +----+---------------+---------------------+
 | 1  | Steve Johnson | Driver              |
 | 2  | Alex Ford     | Construction worker |
-| 3  | Peter Griffin | F1 Racer            |
+| 3  | Peter Tompson | F1 Racer            |
 +----+---------------+---------------------+
