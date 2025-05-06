@@ -3,9 +3,8 @@
 +-----+--------+
 | int | string |
 +-----+--------+
-| 1   | Monaco |
-| 2   | Paris  |
-| 3   | Rome   |
-| 4   | Madrid |
-| 5   | Zurich |
+| 1   | winter |
+| 2   | spring |
+| 3   | summer |
+| 4   | autumn |
 +-----+--------+
