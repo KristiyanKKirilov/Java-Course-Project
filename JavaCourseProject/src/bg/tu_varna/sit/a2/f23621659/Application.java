@@ -12,17 +12,17 @@ public class Application {
     {
         Scanner scanner = new Scanner(System.in);
 
-//        List<List<String>> jobs = Arrays.asList(
+//        List<List<String>> cities = Arrays.asList(
 //                Arrays.asList("ID", "Name"),
-//                Arrays.asList("1", "Driver", "Driver"),
-//                Arrays.asList("2", "Construction worker"),
-//                Arrays.asList("3", "F1 Racer"),
-//                Arrays.asList("4", "Cook Chef"),
-//                Arrays.asList("5", "Zookeeper")
+//                Arrays.asList("1", "Monaco"),
+//                Arrays.asList("2", "Paris"),
+//                Arrays.asList("3", "Rome"),
+//                Arrays.asList("4", "Madrid"),
+//                Arrays.asList("5", "Zurich")
 //        );
 //
-//        List<String> formattedJobsData =  TableFormatter.formatData(jobs);
-//        FileManager.writeInFile("jobs.txt", formattedJobsData);
+//        List<String> formattedJobsData =  TableFormatter.formatData(cities);
+//        FileManager.writeInFile("cities.txt", formattedJobsData);
 
         String input;
         while(!(input = scanner.nextLine()).equals("END")) {
@@ -32,6 +32,9 @@ public class Application {
                 case "import":
                     String fileName = command[1];
                     FileManager.importTable(fileName);
+                    break;
+                case "showtables":
+                    FileManager.showTables();
                     break;
                 default:
                     break;
@@ -55,5 +58,6 @@ public class Application {
 //        }
 //
 //        FileManager.importTable("departments.txt");
+
     }
 }

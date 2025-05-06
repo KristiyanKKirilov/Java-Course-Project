@@ -82,4 +82,21 @@ public class FileManager {
             ErrorHandler.handleIOException(ex, "importing table from " + importPath);
         }
     }
+
+    public static void showTables() {
+        String catalogPath = DATA_FOLDER + CATALOG_FILE;
+        List<String> content = new ArrayList<>();
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(catalogPath))) {
+            String line;
+
+            while((line = reader.readLine()) != null) {
+                content.add(line);
+            }
+        } catch (IOException ex) {
+            ErrorHandler.handleIOException(ex, "reading " + catalogPath);
+        }
+
+        ConsoleWriter.print(content);
+    }
 }
