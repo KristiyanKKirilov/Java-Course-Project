@@ -1,5 +1,6 @@
 package bg.tu_varna.sit.a2.f23621659;
 
+import bg.tu_varna.sit.a2.f23621659.models.ConsoleWriter;
 import bg.tu_varna.sit.a2.f23621659.models.FileManager;
 import bg.tu_varna.sit.a2.f23621659.models.Table;
 
@@ -31,13 +32,23 @@ public class Application {
 
             switch(command[0]) {
                 case "import":
+                {
+
                     String fileName = command[1];
                     FileManager.importTable(fileName);
                     break;
+                }
                 case "showtables":
                     FileManager.showTables();
                     break;
-
+                case "describe":
+                {
+                    String fileName = command[1];
+                    List<String> tableData = FileManager.readFile(fileName);
+                    Table table = Table.createTable(tableData);
+                    String description = table.getColumnDescription();
+                    ConsoleWriter.printDescription(description);
+                }
                 default:
                     break;
             }

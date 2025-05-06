@@ -47,6 +47,21 @@ public class Table {
         return table;
     }
 
+    public String getColumnDescription() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < headers.size(); i++) {
+            String header = headers.get(i);
+            String type = types.get(i);
+            sb.append(header + " ").append(type);
+
+            if(i != headers.size() - 1)
+                sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
     private static  List<String> formatData(List<List<String>> table) {
         List<String> result = new ArrayList<>();
 

@@ -97,6 +97,6 @@ public class FileManager {
             ErrorHandler.handleIOException(ex, "reading " + catalogPath);
         }
 
-        ConsoleWriter.print(content);
+        ConsoleWriter.printTables(content);
     }
 }
