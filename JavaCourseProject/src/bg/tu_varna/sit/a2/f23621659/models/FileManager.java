@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
-    private static final String DATA_FOLDER = "data/";
+    private static final String DATA_FOLDER = "database/";
+    private static final String IMPORT_FOLDER = "imports/";
+    private static final String CATALOG_FILE = "catalog.txt";
 
     public static List<String>  readFile(String fileName)  {
         List<String> lines = new ArrayList<>();
@@ -29,14 +31,19 @@ public class FileManager {
         String path = DATA_FOLDER + fileName;
 
 
-            File directory = new File(DATA_FOLDER);
-            if (!directory.exists()) {
-                directory.mkdirs(); // Creates the folder if it doesn't exist
-            }
+        File directory = new File(DATA_FOLDER);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        File file = new File(path);
+
+        if(!file.exists()) {
+            ErrorHandler.handleTableExistsError(fileName);
+            return;
+        }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))){
-
-
             for (String line:content) {
                 writer.write(line);
                 writer.newLine();

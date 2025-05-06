@@ -4,7 +4,11 @@ import java.io.IOException;
 
 public class ErrorHandler {
     public static void handleIOException (IOException exception, String text) {
-        System.err.println("ERROR: " + text);
+        System.err.println("Error: " + text);
         System.err.println("Details: " + exception.getMessage());
+    }
+
+    public static void handleTableExistsError(String tableName) {
+        System.err.println("Error: A table with name " + tableName + " already exists");
     }
 }
