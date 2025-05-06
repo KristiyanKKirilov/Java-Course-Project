@@ -35,5 +35,7 @@ public class Application {
         {
             System.out.println(data);
         }
+
+        FileManager.importTable("departments.txt");
     }
 }
