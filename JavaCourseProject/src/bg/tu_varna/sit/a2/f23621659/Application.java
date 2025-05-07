@@ -40,18 +40,21 @@ public class Application {
                     TableDialog.showTableInDialogWithPagination(table, 5);
                 }
                 case "export": {
+                    String tableName = command[1];
+                    String fileName = command[2];
+
                     List<String> headers = Arrays.asList("ID", "Name");
                     List<String> types = Arrays.asList("int", "string");
 
-                    Table jobsTable = new Table(headers, types);
-                    jobsTable.addRow(Arrays.asList("1", "Driver"));
-                    jobsTable.addRow(Arrays.asList("2", "Construction worker"));
-                    jobsTable.addRow(Arrays.asList("3", "F1 Racer"));
-                    jobsTable.addRow(Arrays.asList("4", "Cook Chef"));
-                    jobsTable.addRow(Arrays.asList("5", "Zoo keeper"));
+                    Table jobPositionsTable = new Table(headers, types);
+                    jobPositionsTable.addRow(Arrays.asList("1", "CEO"));
+                    jobPositionsTable.addRow(Arrays.asList("2", "Manager"));
+                    jobPositionsTable.addRow(Arrays.asList("3", "Worker"));
+                    jobPositionsTable.addRow(Arrays.asList("4", "Trainer"));
 
-                    List<String> seasonsTableData = jobsTable.getTableData();
-                    fileManager.writeTableInFile("jobs.txt", seasonsTableData);
+                    List<String> jobPositionsTableData = jobPositionsTable.getTableData();
+                    fileManager.writeTableInFile(fileName, jobPositionsTableData);
+                    fileManager.writeInCatalogFile("catalog.txt", fileName);
                 }
                 break;
                 default:

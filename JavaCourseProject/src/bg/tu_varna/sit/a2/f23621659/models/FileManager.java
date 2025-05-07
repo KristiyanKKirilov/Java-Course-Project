@@ -2,6 +2,7 @@ package bg.tu_varna.sit.a2.f23621659.models;
 
 import java.io.*;
 import java.nio.file.FileSystemNotFoundException;
+import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,8 @@ public class FileManager {
     private static final String DATA_FOLDER = "database/";
     private static final String IMPORT_FOLDER = "imports/";
     private static final String CATALOG_FILE = "catalog.txt";
+    private String catalogPath = DATA_FOLDER + CATALOG_FILE;
+
 
     private FileManager()
     {
@@ -68,14 +71,19 @@ public class FileManager {
         }
     }
 
-    public void writeInFile(String fileName, String content) {
-        
+    public void writeInCatalogFile(String fileName, String content) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(catalogPath, true))) {
+                writer.write(content);
+                writer.newLine();
+        } catch (IOException ex) {
+            ErrorHandler.handleIOException(ex, "writing in " + fileName);
+        }
+
     }
 
     public void importTable(String fileName) {
         String importPath = IMPORT_FOLDER + fileName;
         String databasePath = DATA_FOLDER + fileName;
-        String catalogPath = DATA_FOLDER + CATALOG_FILE;
 
         try {
             List<String> content = new ArrayList<>();
