@@ -1,7 +1,7 @@
 +-----+--------+
 | ID  | Name   |
 +-----+--------+
-| int | string |
+| int | String |
 +-----+--------+
 | 1   | winter |
 | 2   | spring |

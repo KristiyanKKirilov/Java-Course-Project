@@ -81,6 +81,24 @@ public class FileManager {
 
     }
 
+    public void updateTableInFile(String fileName, List<String> content) {
+        String path = DATA_FOLDER + fileName;
+
+        File directory = new File(DATA_FOLDER);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, false))) {
+            for (String line : content) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException ex) {
+            ErrorHandler.handleIOException(ex, "updating " + path);
+        }
+    }
+
     public void importTable(String fileName) {
         String importPath = IMPORT_FOLDER + fileName;
         String databasePath = DATA_FOLDER + fileName;

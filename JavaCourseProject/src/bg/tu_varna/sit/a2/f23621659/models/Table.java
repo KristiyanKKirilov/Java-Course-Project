@@ -1,14 +1,16 @@
 package bg.tu_varna.sit.a2.f23621659.models;
 
+import bg.tu_varna.sit.a2.f23621659.enums.DataType;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
     private List<String> headers;
-    private List<String> types;
+    private List<DataType> types;
     private List<List<String>> rows;
 
-    public Table(List<String> headers, List<String> types) {
+    public Table(List<String> headers, List<DataType> types) {
         this.headers = headers;
         this.types = types;
         this.rows = new ArrayList<>();
@@ -18,8 +20,8 @@ public class Table {
         return headers;
     }
 
-    public List<String> getTypes() {
-        return types;
+    public List<String> getTypeStrings() {
+        return types.stream().map(DataType::name).toList();
     }
 
     public List<List<String>> getRows() {
@@ -31,13 +33,31 @@ public class Table {
             throw new IllegalArgumentException("Row size does not match number of columns");
         }
 
+        for (int i = 0; i < row.size(); i++) {
+            DataType type = types.get(i);
+            String value = row.get(i);
+
+            if (!type.isValid(value)) {
+                throw new IllegalArgumentException("Invalid value '" + value + "' for type '" + type + "' at column " + headers.get(i));
+            }
+        }
+
         rows.add(row);
+    }
+
+    public void addColumn(String columnName, DataType columnType) {
+        headers.add(columnName);
+        types.add(columnType);
+
+        for (List<String> row : rows) {
+            row.add("NULL");
+        }
     }
 
     public List<String> getTableData() {
         List<List<String>> table = new ArrayList<>();
         table.add(headers);
-        table.add(types);
+        table.add(getTypeStrings());
         table.addAll(rows);
 
         return formatData(table);
@@ -48,7 +68,7 @@ public class Table {
 
         for (int i = 0; i < headers.size(); i++) {
             String header = headers.get(i);
-            String type = types.get(i);
+            String type = getTypeStrings().get(i);
             sb.append(header + " ").append(type);
 
             if(i != headers.size() - 1)
@@ -56,6 +76,21 @@ public class Table {
         }
 
         return sb.toString();
+    }
+
+    public Table selectRowsByColumnValue(int columnIndex, String value) {
+        List<List<String>> matchedRows = new ArrayList<>();
+
+
+        for (List<String> row : rows) {
+            if (columnIndex < row.size() && row.get(columnIndex).equals(value)) {
+                matchedRows.add(row);
+            }
+        }
+
+        Table filteredTable = new Table(headers, types);
+        filteredTable.getRows().addAll(matchedRows);
+        return filteredTable;
     }
 
     private  List<String> formatData(List<List<String>> table) {

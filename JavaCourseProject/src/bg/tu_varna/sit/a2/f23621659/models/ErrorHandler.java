@@ -17,4 +17,8 @@ public class ErrorHandler {
     public static void handleTableExistsError(String tableName) {
         System.err.println("Error: A table with name " + tableName + " already exists");
     }
+
+    public static void printException(String message) {
+        System.err.println(message);
+    }
 }

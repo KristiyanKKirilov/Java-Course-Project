@@ -1,5 +1,7 @@
 package bg.tu_varna.sit.a2.f23621659.models;
 
+import bg.tu_varna.sit.a2.f23621659.enums.DataType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +14,13 @@ public class TableCreator {
         }
 
         List<String> headers = extractedData.get(0);
-        List<String> types = extractedData.get(1);
+        List<String> typesString = extractedData.get(1);
         List<List<String>> rows = extractedData.subList(2, extractedData.size());
+
+        List<DataType> types = new ArrayList<>();
+        for(String type: typesString) {
+            types.add(DataType.fromString(type));
+        }
 
         Table table = new Table(headers, types);
         table.getRows().addAll(rows);
