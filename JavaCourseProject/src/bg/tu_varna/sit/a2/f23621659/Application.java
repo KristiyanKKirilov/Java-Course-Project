@@ -97,8 +97,7 @@ public class Application {
                     } catch (IllegalArgumentException ex) {
                         ErrorHandler.printException("Invalid column type. Allowed types: INT, DOUBLE, STRING");
                     }
-
-
+                    
                     List<String> updatedTableData = table.getTableData();
                     fileManager.updateTableInFile(fileName, updatedTableData);
                 }
