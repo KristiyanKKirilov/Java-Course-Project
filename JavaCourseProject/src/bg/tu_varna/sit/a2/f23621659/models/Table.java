@@ -14,6 +14,18 @@ public class Table {
         this.rows = new ArrayList<>();
     }
 
+    public List<String> getHeaders() {
+        return headers;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public List<List<String>> getRows() {
+        return rows;
+    }
+
     public void addRow(List<String> row) {
         if(row.size() != headers.size()) {
             throw new IllegalArgumentException("Row size does not match number of columns");
@@ -31,22 +43,6 @@ public class Table {
         return formatData(table);
     }
 
-    public static Table createTable(List<String> lines) {
-        List<List<String>> extractedData = extractData(lines);
-
-        if(extractedData.size() < 2) {
-            throw new IllegalArgumentException("Table must contain at least header and type rows");
-        }
-
-        List<String> headers = extractedData.get(0);
-        List<String> types = extractedData.get(1);
-        List<List<String>> rows = extractedData.subList(2, extractedData.size());
-
-        Table table = new Table(headers, types);
-        table.rows.addAll(rows);
-        return table;
-    }
-
     public String getColumnDescription() {
         StringBuilder sb = new StringBuilder();
 
@@ -62,7 +58,7 @@ public class Table {
         return sb.toString();
     }
 
-    private static  List<String> formatData(List<List<String>> table) {
+    private  List<String> formatData(List<List<String>> table) {
         List<String> result = new ArrayList<>();
 
         if(table.isEmpty())
@@ -106,7 +102,7 @@ public class Table {
         return result;
     }
 
-    private static String createBorder(int[] widths) {
+    private String createBorder(int[] widths) {
         StringBuilder border = new StringBuilder("+");
         for (int width : widths) {
             border.append("-".repeat(width + 2)).append("+");
@@ -114,23 +110,5 @@ public class Table {
         return border.toString();
     }
 
-    private static List<List<String>> extractData(List<String> lines) {
-        List<List<String>> tableData = new ArrayList<>();
 
-        for (String line : lines) {
-            line = line.trim();
-            if (line.startsWith("+") || line.isEmpty()) continue;
-
-            String[] cells = line.split("\\|");
-            List<String> row = new ArrayList<>();
-            for (String cell : cells) {
-                String trimmed = cell.trim();
-                if (!trimmed.isEmpty()) row.add(trimmed);
-            }
-
-            tableData.add(row);
-        }
-
-        return tableData;
-    }
 }
