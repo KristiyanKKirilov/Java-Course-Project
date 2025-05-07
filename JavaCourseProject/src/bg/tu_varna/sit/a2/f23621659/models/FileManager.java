@@ -6,11 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
+    private static FileManager instance;
     private static final String DATA_FOLDER = "database/";
     private static final String IMPORT_FOLDER = "imports/";
     private static final String CATALOG_FILE = "catalog.txt";
 
-    public static List<String>  readFile(String fileName)  {
+    private FileManager()
+    {
+    }
+
+    public static FileManager getInstance() {
+        if(instance == null)
+        {
+            instance = new FileManager();
+        }
+
+        return  instance;
+    }
+
+    public List<String> readFile(String fileName)  {
         List<String> lines = new ArrayList<>();
         String path = DATA_FOLDER + fileName;
 
@@ -28,7 +42,7 @@ public class FileManager {
         return lines;
     }
 
-    public static void writeInFile(String fileName, List<String> content) {
+    public void writeTableInFile(String fileName, List<String> content) {
         String path = DATA_FOLDER + fileName;
 
 
@@ -54,13 +68,16 @@ public class FileManager {
         }
     }
 
-    public static void importTable(String fileName) {
+    public void writeInFile(String fileName, String content) {
+        
+    }
+
+    public void importTable(String fileName) {
         String importPath = IMPORT_FOLDER + fileName;
         String databasePath = DATA_FOLDER + fileName;
         String catalogPath = DATA_FOLDER + CATALOG_FILE;
 
         try {
-            // Read file from imports/
             List<String> content = new ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(importPath))) {
                 String line;
@@ -69,10 +86,8 @@ public class FileManager {
                 }
             }
 
-            // Write file to database/
-            FileManager.writeInFile(fileName, content);
+            instance.writeTableInFile(fileName, content);
 
-            // Append table name to catalog.txt
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(catalogPath, true))) {
                 writer.write(fileName);
                 writer.newLine();
