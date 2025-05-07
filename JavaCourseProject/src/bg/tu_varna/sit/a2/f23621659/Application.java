@@ -97,9 +97,27 @@ public class Application {
                     } catch (IllegalArgumentException ex) {
                         ErrorHandler.printException("Invalid column type. Allowed types: INT, DOUBLE, STRING");
                     }
-                    
+
                     List<String> updatedTableData = table.getTableData();
                     fileManager.updateTableInFile(fileName, updatedTableData);
+                }
+                break;
+                case "delete": {
+                    String tableName = command[1];
+                    String fileName = tableName + ".txt";
+                    int searchColumnIndex = Integer.parseInt(command[2]);
+                    String searchValue = command[3];
+
+                    List<String> tableData = fileManager.readFile(fileName);
+                    Table table = TableCreator.createTable(tableData);
+
+                    try {
+                        table.deleteRowsByColumnValue(searchColumnIndex, searchValue);
+                        List<String> updatedTableData = table.getTableData();
+                        fileManager.updateTableInFile(fileName, updatedTableData);
+                    } catch (IllegalArgumentException ex) {
+                        ErrorHandler.printException(ex.getMessage());
+                    }
                 }
                 break;
                 default:

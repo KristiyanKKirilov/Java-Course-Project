@@ -1,7 +1,7 @@
 +-----+----------------+---------------------+--------+
 | ID  | Name           | Job                 | salary |
 +-----+----------------+---------------------+--------+
-| int | String         | String              | String |
+| INT | STRING         | STRING              | STRING |
 +-----+----------------+---------------------+--------+
 | 1   | Steve Johnson  | Driver              | NULL   |
 | 2   | Alex Ford      | Construction worker | NULL   |

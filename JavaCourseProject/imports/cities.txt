@@ -1,7 +1,7 @@
 +-----+--------+
 | ID  | Name   |
 +-----+--------+
-| int | String |
+| INT | STRING |
 +-----+--------+
 | 1   | Monaco |
 | 2   | Paris  |

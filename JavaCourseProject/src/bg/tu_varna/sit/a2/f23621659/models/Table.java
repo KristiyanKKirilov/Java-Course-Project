@@ -28,7 +28,7 @@ public class Table {
         return rows;
     }
 
-    public void addRow(List<String> row) {
+    public void addRow(List<String> row) throws IllegalArgumentException {
         if(row.size() != headers.size()) {
             throw new IllegalArgumentException("Row size does not match number of columns");
         }
@@ -91,6 +91,14 @@ public class Table {
         Table filteredTable = new Table(headers, types);
         filteredTable.getRows().addAll(matchedRows);
         return filteredTable;
+    }
+
+    public void deleteRowsByColumnValue(int columnIndex, String value) throws IllegalArgumentException {
+        if(columnIndex < 0 || columnIndex >= headers.size()) {
+            throw new IllegalArgumentException("Invalid column index");
+        }
+
+        rows.removeIf(row -> row.get(columnIndex).equals(value));
     }
 
     private  List<String> formatData(List<List<String>> table) {
