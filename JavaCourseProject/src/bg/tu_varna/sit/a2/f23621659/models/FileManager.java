@@ -11,7 +11,7 @@ public class FileManager {
     private static final String DATA_FOLDER = "database/";
     private static final String IMPORT_FOLDER = "imports/";
     private static final String CATALOG_FILE = "catalog.txt";
-    private String catalogPath = DATA_FOLDER + CATALOG_FILE;
+    private final String catalogPath = DATA_FOLDER + CATALOG_FILE;
 
 
     private FileManager()
@@ -101,7 +101,6 @@ public class FileManager {
 
     public void importTable(String fileName) {
         String importPath = IMPORT_FOLDER + fileName;
-        String databasePath = DATA_FOLDER + fileName;
 
         try {
             List<String> content = new ArrayList<>();
@@ -139,5 +138,52 @@ public class FileManager {
         }
 
         ConsoleWriter.printTables(content);
+    }
+
+    public void renameTable(String oldName, String newName) {
+        String oldFileName = oldName + ".txt";
+        String newFileName = newName + ".txt";
+
+        File oldFile = new File(DATA_FOLDER, oldFileName);
+        File newFile = new File(DATA_FOLDER, newFileName);
+
+        if(!oldFile.exists()) {
+            ErrorHandler.printException("Table doesn't exist");
+            return;
+        }
+
+        if(newFile.exists()) {
+            ErrorHandler.printException("Table with this new name already exists");
+            return;
+        }
+
+        boolean success = oldFile.renameTo(newFile);
+
+        if(success) {
+            updateCatalogFile(oldFileName, newFileName);
+            ConsoleWriter.printDescription("Table " + oldName + " renamed to " + newName);
+        } else {
+            ErrorHandler.printException("Table file has not been renamed");
+        }
+    }
+
+    private void updateCatalogFile(String oldFileName, String newFileName) {
+        List<String> catalogEntries = readFile(CATALOG_FILE);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(catalogPath, false))) {
+
+            for (String entry : catalogEntries) {
+
+                if (entry.equals(oldFileName)) {
+                    writer.write(newFileName);
+                } else {
+                    writer.write(entry);
+                }
+
+                writer.newLine();
+            }
+        } catch (IOException ex) {
+            ErrorHandler.handleIOException(ex, "updating catalog during rename");
+        }
     }
 }

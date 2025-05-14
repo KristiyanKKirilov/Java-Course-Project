@@ -173,6 +173,12 @@ public class Application {
                     }
                 }
                 break;
+                case "rename": {
+                    String oldName = command[1];
+                    String newName = command[2];
+                    fileManager.renameTable(oldName, newName);
+                }
+                    break;
                 default:
                     break;
             }
