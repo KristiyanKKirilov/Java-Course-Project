@@ -101,6 +101,29 @@ public class Table {
         rows.removeIf(row -> row.get(columnIndex).equals(value));
     }
 
+    public void updateRowsByColumnValue(int searchColumnIndex, String searchValue, int targetColumnIndex, String targetValue) throws IllegalArgumentException {
+        if(searchColumnIndex < 0 || searchColumnIndex >= headers.size()) {
+            throw new IllegalArgumentException("Invalid search column index");
+        }
+
+        if(targetColumnIndex < 0 || targetColumnIndex >= headers.size()) {
+            throw new IllegalArgumentException("Invalid target column index");
+        }
+
+        DataType type = types.get(targetColumnIndex);
+
+        if(!"NULL".equals(targetValue) && !type.isValid(targetValue)) {
+            throw new IllegalArgumentException("Invalid value " + targetValue + " for type " + type);
+        }
+
+        for (List<String> row :rows) {
+            if(row.get(searchColumnIndex).equals(searchValue)) {
+                row.set(targetColumnIndex, targetValue);
+            }
+        }
+
+    }
+
     private  List<String> formatData(List<List<String>> table) {
         List<String> result = new ArrayList<>();
 

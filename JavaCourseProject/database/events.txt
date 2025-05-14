@@ -1,9 +1,9 @@
 +-----+----------------+--------+-----------+
 | ID  | Name           | City   | Organizer |
 +-----+----------------+--------+-----------+
-| INT | DOUBLE         | STRING | STRING    |
+| INT | STRING         | STRING | STRING    |
 +-----+----------------+--------+-----------+
-| 1   | F1 Race        | Monaco | NULL      |
+| 1   | MotoGP         | Monaco | NULL      |
 | 2   | Football match | Paris  | NULL      |
 | 3   | Parade         | Rome   | NULL      |
 +-----+----------------+--------+-----------+

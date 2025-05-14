@@ -124,7 +124,7 @@ public class FileManager {
         }
     }
 
-    public static void showTables() {
+    public void showTables() {
         String catalogPath = DATA_FOLDER + CATALOG_FILE;
         List<String> content = new ArrayList<>();
 

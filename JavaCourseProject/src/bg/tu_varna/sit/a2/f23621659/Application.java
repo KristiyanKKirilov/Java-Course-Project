@@ -23,7 +23,7 @@ public class Application {
 
         String input;
         while (!(input = scanner.nextLine()).equals("END")) {
-            String[] command = input.split(" ");
+            String[] command = input.split("-");
 
             switch (command[0]) {
                 case "import": {
@@ -32,7 +32,7 @@ public class Application {
                     break;
                 }
                 case "showtables":
-                    FileManager.showTables();
+                    fileManager.showTables();
                     break;
                 case "describe": {
                     String tableName = command[1];
@@ -79,8 +79,6 @@ public class Application {
                     } catch (Exception e) {
                         System.out.println("Error: Invalid input or column index. Usage: select <column-index> <value> <file>");
                     }
-
-
                 }
                 break;
                 case "addcolumn": {
@@ -102,6 +100,26 @@ public class Application {
                     fileManager.updateTableInFile(fileName, updatedTableData);
                 }
                 break;
+                case "update": {
+                    String tableName = command[1];
+                    int searchColumnIndex = Integer.parseInt(command[2]);
+                    String searchValue = command[3];
+                    int targetColumnIndex = Integer.parseInt(command[4]);
+                    String targetValue = command[5];
+                    String fileName = tableName + ".txt";
+
+                    List<String> tableData = fileManager.readFile(fileName);
+                    Table table = TableCreator.createTable(tableData);
+
+                    try {
+                        table.updateRowsByColumnValue(searchColumnIndex, searchValue, targetColumnIndex, targetValue);
+                        List<String> updatedTableData = table.getTableData();
+                        fileManager.updateTableInFile(fileName, updatedTableData);
+                    } catch(IllegalArgumentException ex) {
+                        ErrorHandler.printException(ex.getMessage());
+                    }
+                }
+                    break;
                 case "delete": {
                     String tableName = command[1];
                     String fileName = tableName + ".txt";
