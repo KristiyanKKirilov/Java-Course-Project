@@ -29,6 +29,7 @@ public class Application {
                 case "import": {
                     String fileName = command[1];
                     fileManager.importTable(fileName);
+                    ConsoleWriter.printDescription("Table imported successfully.");
                     break;
                 }
                 case "showtables":
@@ -61,10 +62,11 @@ public class Application {
                     List<String> tableData = fileManager.readFile(tableFileName);
                     fileManager.writeTableInFile(fileName, tableData);
                     fileManager.writeInCatalogFile("catalog.txt", fileName);
+
+                    ConsoleWriter.printDescription("Table " + tableName + " exported in file " + fileName + " successfully.");
                 }
                 break;
-                case "select":
-                {
+                case "select": {
                     try {
                         int columnIndex = Integer.parseInt(command[1]);
                         String value = command[2];
@@ -92,12 +94,14 @@ public class Application {
                     try {
                         DataType columnType = DataType.fromString(command[3]);
                         table.addColumn(columnName, columnType);
+
+                        List<String> updatedTableData = table.getTableData();
+                        fileManager.updateTableInFile(fileName, updatedTableData);
+
+                        ConsoleWriter.printDescription("Column added successfully.");
                     } catch (IllegalArgumentException ex) {
                         ErrorHandler.printException("Invalid column type. Allowed types: INT, DOUBLE, STRING");
                     }
-
-                    List<String> updatedTableData = table.getTableData();
-                    fileManager.updateTableInFile(fileName, updatedTableData);
                 }
                 break;
                 case "update": {
@@ -115,11 +119,13 @@ public class Application {
                         table.updateRowsByColumnValue(searchColumnIndex, searchValue, targetColumnIndex, targetValue);
                         List<String> updatedTableData = table.getTableData();
                         fileManager.updateTableInFile(fileName, updatedTableData);
-                    } catch(IllegalArgumentException ex) {
+
+                        ConsoleWriter.printDescription("Row updated successfully.");
+                    } catch (IllegalArgumentException ex) {
                         ErrorHandler.printException(ex.getMessage());
                     }
                 }
-                    break;
+                break;
                 case "delete": {
                     String tableName = command[1];
                     String fileName = tableName + ".txt";
@@ -133,6 +139,33 @@ public class Application {
                         table.deleteRowsByColumnValue(searchColumnIndex, searchValue);
                         List<String> updatedTableData = table.getTableData();
                         fileManager.updateTableInFile(fileName, updatedTableData);
+
+                        ConsoleWriter.printDescription("Row deleted successfully.");
+                    } catch (IllegalArgumentException ex) {
+                        ErrorHandler.printException(ex.getMessage());
+                    }
+                }
+                break;
+                case "insert": {
+                    if (command.length < 3) {
+                        ErrorHandler.printException("Not enough arguments passed");
+                        break;
+                    }
+
+                    String tableName = command[1];
+                    String fileName = tableName + ".txt";
+
+                    try {
+                        List<String> tableData = fileManager.readFile(fileName);
+                        Table table = TableCreator.createTable(tableData);
+
+                        List<String> values = Arrays.asList(command).subList(2, command.length);
+                        table.addRow(values);
+
+                        List<String> updatedTableData = table.getTableData();
+                        fileManager.updateTableInFile(fileName, updatedTableData);
+
+                        ConsoleWriter.printDescription("Row inserted successfully");
                     } catch (IllegalArgumentException ex) {
                         ErrorHandler.printException(ex.getMessage());
                     }

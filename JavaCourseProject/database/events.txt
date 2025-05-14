@@ -6,4 +6,5 @@
 | 1   | MotoGP         | Monaco | NULL      |
 | 2   | Football match | Paris  | NULL      |
 | 3   | Parade         | Rome   | NULL      |
+| 4   | F1 Race        | Madrid | RedBull   |
 +-----+----------------+--------+-----------+
