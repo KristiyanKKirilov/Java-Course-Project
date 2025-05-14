@@ -1,3 +1,4 @@
 events.txt
 persons.txt
-seasons.txt
+jobs.txt
+cities.txt

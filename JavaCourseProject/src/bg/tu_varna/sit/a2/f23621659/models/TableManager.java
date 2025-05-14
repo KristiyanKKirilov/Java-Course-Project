@@ -5,7 +5,7 @@ import bg.tu_varna.sit.a2.f23621659.enums.DataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableCreator {
+public class TableManager {
     public static Table createTable(List<String> lines) {
         List<List<String>> extractedData = extractData(lines);
 

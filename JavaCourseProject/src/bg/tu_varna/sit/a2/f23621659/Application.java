@@ -12,14 +12,16 @@ public class Application {
         Scanner scanner = new Scanner(System.in);
         FileManager fileManager = FileManager.getInstance();
 
-//                    List<String> headers = Arrays.asList("ID", "Name");
-//                    List<String> types = Arrays.asList("int", "string");
+//        List<String> headers = Arrays.asList("OrganizerID", "Name");
+//        List<DataType> types = Arrays.asList(DataType.INT, DataType.STRING);
 //
-//                    Table jobPositionsTable = new Table(headers, types);
-//                    jobPositionsTable.addRow(Arrays.asList("1", "CEO"));
-//                    jobPositionsTable.addRow(Arrays.asList("2", "Manager"));
-//                    jobPositionsTable.addRow(Arrays.asList("3", "Worker"));
-//                    jobPositionsTable.addRow(Arrays.asList("4", "Trainer"));
+//        Table organizersTable = new Table(headers, types);
+//        organizersTable.addRow(Arrays.asList("1", "RedBull"));
+//        organizersTable.addRow(Arrays.asList("2", "Rockstar"));
+//        organizersTable.addRow(Arrays.asList("3", "Coca Cola"));
+//        organizersTable.addRow(Arrays.asList("4", "Spotify"));
+//        List<String> tableData1 = organizersTable.getTableData();
+//        fileManager.writeTableInFile("organizers.txt", tableData1);
 
         String input;
         while (!(input = scanner.nextLine()).equals("END")) {
@@ -40,7 +42,7 @@ public class Application {
                     String fileName = tableName + ".txt";
 
                     List<String> tableData = fileManager.readFile(fileName);
-                    Table table = TableCreator.createTable(tableData);
+                    Table table = TableManager.createTable(tableData);
                     String description = table.getColumnDescription();
                     ConsoleWriter.printDescription(description);
                 }
@@ -50,7 +52,7 @@ public class Application {
                     String fileName = tableName + ".txt";
 
                     List<String> tableData = fileManager.readFile(fileName);
-                    Table table = TableCreator.createTable(tableData);
+                    Table table = TableManager.createTable(tableData);
                     TableDialog.showTableInDialogWithPagination(table, 5);
                 }
                 break;
@@ -73,7 +75,7 @@ public class Application {
                         String fileName = command[3];
 
                         List<String> tableData = fileManager.readFile(fileName);
-                        Table table = TableCreator.createTable(tableData);
+                        Table table = TableManager.createTable(tableData);
 
                         Table filteredTable = table.selectRowsByColumnValue(columnIndex, value);
 
@@ -89,7 +91,7 @@ public class Application {
                     String fileName = tableName + ".txt";
 
                     List<String> tableData = fileManager.readFile(fileName);
-                    Table table = TableCreator.createTable(tableData);
+                    Table table = TableManager.createTable(tableData);
 
                     try {
                         DataType columnType = DataType.fromString(command[3]);
@@ -113,7 +115,7 @@ public class Application {
                     String fileName = tableName + ".txt";
 
                     List<String> tableData = fileManager.readFile(fileName);
-                    Table table = TableCreator.createTable(tableData);
+                    Table table = TableManager.createTable(tableData);
 
                     try {
                         table.updateRowsByColumnValue(searchColumnIndex, searchValue, targetColumnIndex, targetValue);
@@ -133,7 +135,7 @@ public class Application {
                     String searchValue = command[3];
 
                     List<String> tableData = fileManager.readFile(fileName);
-                    Table table = TableCreator.createTable(tableData);
+                    Table table = TableManager.createTable(tableData);
 
                     try {
                         table.deleteRowsByColumnValue(searchColumnIndex, searchValue);
@@ -157,7 +159,7 @@ public class Application {
 
                     try {
                         List<String> tableData = fileManager.readFile(fileName);
-                        Table table = TableCreator.createTable(tableData);
+                        Table table = TableManager.createTable(tableData);
 
                         List<String> values = Arrays.asList(command).subList(2, command.length);
                         table.addRow(values);
