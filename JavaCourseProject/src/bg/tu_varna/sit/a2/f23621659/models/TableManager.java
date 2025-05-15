@@ -35,33 +35,38 @@ public class TableManager {
             throw new IllegalArgumentException("Invalid column index for join.");
         }
 
+        if(!firstTable.getHeaders().get(firstTableColumnIndex).equalsIgnoreCase(secondTable.getHeaders().get(secondTableColumnIndex))) {
+            throw new IllegalArgumentException("Given index is not foreign key");
+        }
+
         List<String> newHeaders = new ArrayList<>(firstTable.getHeaders());
         List<DataType> newTypes = new ArrayList<>(firstTable.getTypes());
 
-        for (int i = 0; i < secondTable.getHeaders().size(); i++) {
-            if (i == secondTableColumnIndex) continue;
-            newHeaders.add(secondTable.getHeaders().get(i));
-            newTypes.add(secondTable.getTypeStrings().get(i).equals("NULL") ? DataType.STRING : DataType.valueOf(secondTable.getTypeStrings().get(i)));
-        }
+            newHeaders.addAll(secondTable.getHeaders());
+            newTypes.addAll(secondTable.getTypes());
 
         Table result = new Table(newHeaders, newTypes);
 
         for (List<String> row1 : firstTable.getRows()) {
-            for (List<String> row2 : secondTable.getRows()) {
-                if (row1.get(firstTableColumnIndex).equals(row2.get(secondTableColumnIndex))) {
-                    List<String> newRow = new ArrayList<>(row1);
+            List<String> newRow = new ArrayList<>(row1);
 
-                    // Add values from row2 (excluding the join column)
-                    for (int i = 0; i < row2.size(); i++) {
-                        if (i != secondTableColumnIndex) {
-                            newRow.add(row2.get(i));
-                        }
-                    }
+            Table secondTableValues = secondTable.selectRowsByColumnValue(secondTableColumnIndex, newRow.get(firstTableColumnIndex));
 
-                    result.addRow(newRow);
+            List<String> rowsToAdd = new ArrayList<>();
+            if(!secondTableValues.getRows().isEmpty()) {
+                rowsToAdd = secondTableValues.getRows().getFirst();
+            } else {
+                List<String> nulls = new ArrayList<>();
+                for(int i = 0; i < secondTable.getHeaders().size(); i++) {
+                    nulls.add("NULL");
                 }
+
+                rowsToAdd = nulls;
             }
+            newRow.addAll(rowsToAdd);
+            result.addRow(newRow);
         }
+
 
         return result;
     }

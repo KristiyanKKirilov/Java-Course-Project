@@ -3,11 +3,13 @@ package bg.tu_varna.sit.a2.f23621659.enums;
 public enum DataType {
     INT {
         public boolean isValid(String value) {
+            if (isNull(value)) return true;
             return value.matches("-?\\d+");
         }
     },
     DOUBLE {
         public boolean isValid(String value) {
+            if (isNull(value)) return true;
             return value.matches("-?\\d+(\\.\\d+)?");
         }
     },
@@ -18,6 +20,10 @@ public enum DataType {
     };
 
     public abstract boolean isValid(String value);
+
+    protected boolean isNull(String value) {
+        return "NULL".equalsIgnoreCase(value);
+    }
 
     public static DataType fromString(String type) {
         return switch (type.toUpperCase()) {
