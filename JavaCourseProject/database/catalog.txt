@@ -2,3 +2,4 @@ events.txt
 persons.txt
 jobs.txt
 cities.txt
+organizers.txt

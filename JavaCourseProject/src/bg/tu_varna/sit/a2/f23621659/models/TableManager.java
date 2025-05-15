@@ -27,6 +27,45 @@ public class TableManager {
         return table;
     }
 
+    public static Table innerJoinTables(Table firstTable, int firstTableColumnIndex, Table secondTable, int secondTableColumnIndex) throws IllegalArgumentException{
+        if (firstTableColumnIndex < 0
+                || firstTableColumnIndex >= firstTable.getHeaders().size()
+                || secondTableColumnIndex < 0
+                || secondTableColumnIndex >= secondTable.getHeaders().size()) {
+            throw new IllegalArgumentException("Invalid column index for join.");
+        }
+
+        List<String> newHeaders = new ArrayList<>(firstTable.getHeaders());
+        List<DataType> newTypes = new ArrayList<>(firstTable.getTypes());
+
+        for (int i = 0; i < secondTable.getHeaders().size(); i++) {
+            if (i == secondTableColumnIndex) continue;
+            newHeaders.add(secondTable.getHeaders().get(i));
+            newTypes.add(secondTable.getTypeStrings().get(i).equals("NULL") ? DataType.STRING : DataType.valueOf(secondTable.getTypeStrings().get(i)));
+        }
+
+        Table result = new Table(newHeaders, newTypes);
+
+        for (List<String> row1 : firstTable.getRows()) {
+            for (List<String> row2 : secondTable.getRows()) {
+                if (row1.get(firstTableColumnIndex).equals(row2.get(secondTableColumnIndex))) {
+                    List<String> newRow = new ArrayList<>(row1);
+
+                    // Add values from row2 (excluding the join column)
+                    for (int i = 0; i < row2.size(); i++) {
+                        if (i != secondTableColumnIndex) {
+                            newRow.add(row2.get(i));
+                        }
+                    }
+
+                    result.addRow(newRow);
+                }
+            }
+        }
+
+        return result;
+    }
+
     private static List<List<String>> extractData(List<String> lines) {
         List<List<String>> tableData = new ArrayList<>();
 

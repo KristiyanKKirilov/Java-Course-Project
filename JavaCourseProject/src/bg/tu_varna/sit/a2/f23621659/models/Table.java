@@ -24,6 +24,10 @@ public class Table {
         return types.stream().map(DataType::name).toList();
     }
 
+    public List<DataType> getTypes() {
+        return types;
+    }
+
     public List<List<String>> getRows() {
         return rows;
     }
@@ -122,6 +126,22 @@ public class Table {
             }
         }
 
+    }
+
+    public int countRowsByColumnValue(int columnIndex, String value) throws IllegalArgumentException {
+        if(columnIndex < 0 || columnIndex >= headers.size()) {
+            throw new IllegalArgumentException("Invalid column index");
+        }
+
+        int count = 0;
+
+        for (List<String> row : rows) {
+            if(columnIndex < row.size() && row.get(columnIndex).equals(value)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     private  List<String> formatData(List<List<String>> table) {

@@ -173,12 +173,51 @@ public class Application {
                     }
                 }
                 break;
+                case "innerjoin": {
+                    try {
+                        String table1Name = command[1];
+                        int col1 = Integer.parseInt(command[2]);
+                        String table2Name = command[3];
+                        int col2 = Integer.parseInt(command[4]);
+
+                        Table t1 = TableManager.createTable(fileManager.readFile(table1Name + ".txt"));
+                        Table t2 = TableManager.createTable(fileManager.readFile(table2Name + ".txt"));
+
+                        Table joined = TableManager.innerJoinTables(t1, col1, t2, col2);
+
+                        String joinedTableName = table1Name + "_" + table2Name + "_join";
+                        fileManager.writeTableInFile(joinedTableName + ".txt", joined.getTableData());
+                        fileManager.writeInCatalogFile("catalog.txt", joinedTableName + ".txt");
+
+                        System.out.println("Joined table created: " + joinedTableName);
+                    } catch (Exception e) {
+                        ErrorHandler.printException("Failed to join tables: " + e.getMessage());
+                    }
+                }
+                    break;
                 case "rename": {
                     String oldName = command[1];
                     String newName = command[2];
                     fileManager.renameTable(oldName, newName);
                 }
-                    break;
+                break;
+                case "count": {
+                    try {
+                        String tableName = command[1];
+                        int columnIndex = Integer.parseInt(command[2]);
+                        String searchValue = command[3];
+
+                        String fileName = tableName + ".txt";
+                        List<String> tableData = fileManager.readFile(fileName);
+                        Table table = TableManager.createTable(tableData);
+
+                        int count = table.countRowsByColumnValue(columnIndex, searchValue);
+                        ConsoleWriter.printDescription("Matching rows: " + count);
+                    } catch (Exception e) {
+                        ErrorHandler.printException("Invalid input");
+                    }
+                }
+                break;
                 default:
                     break;
             }
