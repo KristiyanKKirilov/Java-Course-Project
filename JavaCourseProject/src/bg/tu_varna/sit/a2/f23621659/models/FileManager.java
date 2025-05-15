@@ -1,5 +1,7 @@
 package bg.tu_varna.sit.a2.f23621659.models;
 
+import bg.tu_varna.sit.a2.f23621659.enums.AggregateOperation;
+
 import java.io.*;
 import java.nio.file.FileSystemNotFoundException;
 import java.text.FieldPosition;
@@ -166,6 +168,8 @@ public class FileManager {
             ErrorHandler.printException("Table file has not been renamed");
         }
     }
+
+
 
     private void updateCatalogFile(String oldFileName, String newFileName) {
         List<String> catalogEntries = readFile(CATALOG_FILE);

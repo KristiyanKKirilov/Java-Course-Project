@@ -1,8 +1,10 @@
 package bg.tu_varna.sit.a2.f23621659;
 
+import bg.tu_varna.sit.a2.f23621659.enums.AggregateOperation;
 import bg.tu_varna.sit.a2.f23621659.enums.DataType;
 import bg.tu_varna.sit.a2.f23621659.models.*;
 
+import java.io.Console;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -27,7 +29,7 @@ public class Application {
         while (!(input = scanner.nextLine()).equals("END")) {
             String[] command = input.split("-");
 
-            switch (command[0]) {
+            switch (command[0].toLowerCase()) {
                 case "import": {
                     String fileName = command[1];
                     fileManager.importTable(fileName);
@@ -185,7 +187,7 @@ public class Application {
 
                         Table joined = TableManager.innerJoinTables(t1, col1, t2, col2);
 
-                        String joinedTableName = table1Name + "_" + table2Name + "_join";
+                        String joinedTableName = table1Name + "_" + table2Name;
                         fileManager.writeTableInFile(joinedTableName + ".txt", joined.getTableData());
                         fileManager.writeInCatalogFile("catalog.txt", joinedTableName + ".txt");
 
@@ -215,6 +217,25 @@ public class Application {
                         ConsoleWriter.printDescription("Matching rows: " + count);
                     } catch (Exception e) {
                         ErrorHandler.printException("Invalid input");
+                    }
+                }
+                break;
+                case "aggregate": {
+                    try {
+                        String tableName = command[1];
+                        int searchColumnIndex = Integer.parseInt(command[2]);
+                        String searchColumnValue = command[3];
+                        int targetColumnIndex = Integer.parseInt(command[4]);
+                        AggregateOperation operation = AggregateOperation.fromString(command[5]);
+
+                        String fileName = tableName + ".txt";
+                        List<String> tableData = fileManager.readFile(fileName);
+                        Table table = TableManager.createTable(tableData);
+
+                        double result = table.aggregate(searchColumnIndex, searchColumnValue, targetColumnIndex, operation);
+                        ConsoleWriter.printDescription("" + result);
+                    } catch (IllegalArgumentException ex) {
+                        ErrorHandler.printException(ex.getMessage());
                     }
                 }
                 break;

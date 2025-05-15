@@ -3,7 +3,10 @@
 +-----------+----------------+-------+--------+
 | INT       | STRING         | INT   | DOUBLE |
 +-----------+----------------+-------+--------+
-| 1         | Steve Johnson  | 1     | NULL   |
-| 2         | Alex Ford      | 2     | NULL   |
-| 3         | Peter Thompson | 3     | NULL   |
+| 1         | Steve Johnson  | 1     | 3000   |
+| 2         | Alex Ford      | 2     | 4200   |
+| 3         | Peter Thompson | 3     | 5100   |
+| 4         | Robert Cole    | 4     | 2220   |
+| 5         | Alex George    | 2     | 5300   |
+| 6         | Harry Stevens  | 5     | 1900   |
 +-----------+----------------+-------+--------+

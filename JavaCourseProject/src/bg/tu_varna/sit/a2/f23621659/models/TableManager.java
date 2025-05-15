@@ -36,7 +36,7 @@ public class TableManager {
         }
 
         if(!firstTable.getHeaders().get(firstTableColumnIndex).equalsIgnoreCase(secondTable.getHeaders().get(secondTableColumnIndex))) {
-            throw new IllegalArgumentException("Given index is not foreign key");
+            throw new IllegalArgumentException("Given indexes do not match PK->FK relation");
         }
 
         List<String> newHeaders = new ArrayList<>(firstTable.getHeaders());

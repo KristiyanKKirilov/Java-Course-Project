@@ -1,5 +1,6 @@
 package bg.tu_varna.sit.a2.f23621659.models;
 
+import bg.tu_varna.sit.a2.f23621659.enums.AggregateOperation;
 import bg.tu_varna.sit.a2.f23621659.enums.DataType;
 
 import java.util.ArrayList;
@@ -142,6 +143,49 @@ public class Table {
         }
 
         return count;
+    }
+
+    public double aggregate(int searchColumnIndex, String searchValue, int targetColumnIndex, AggregateOperation operation) {
+        if(searchColumnIndex < 0
+                || searchColumnIndex >= headers.size()
+                || targetColumnIndex < 0
+                || targetColumnIndex >= headers.size()
+        ) {
+            throw new IllegalArgumentException("Invalid column index");
+        }
+
+        DataType targetType = types.get(targetColumnIndex);
+
+        if(targetType != DataType.INT && targetType != DataType.DOUBLE) {
+            throw new IllegalArgumentException("Only numeric columns allow aggregation operations");
+        }
+
+        List<Double> values = new ArrayList<>();
+
+        for(List<String> row : rows) {
+            String searchColumnValue = row.get(searchColumnIndex);
+            String targetColumnValue = row.get(targetColumnIndex);
+
+            if(searchColumnValue.equals(searchValue) && !targetColumnValue.equals("NULL")) {
+                try {
+                    values.add(Double.parseDouble(targetColumnValue));
+                } catch(NumberFormatException ex) {
+                    throw new IllegalArgumentException("Invalid numeric value in target column: " + targetColumnValue);
+                }
+            }
+        }
+
+        if(values.isEmpty()) {
+            throw new IllegalArgumentException("No matching numeric values found for aggregation");
+        }
+
+        return switch (operation) {
+            case SUM -> values.stream().mapToDouble(Double::doubleValue).sum();
+            case PRODUCT -> values.stream().reduce(1.0, (a,b) -> a* b);
+            case MAXIMUM -> values.stream().mapToDouble(Double::doubleValue).max().orElseThrow();
+            case MINIMUM -> values.stream().mapToDouble(Double::doubleValue).min().orElseThrow();
+            default -> throw new IllegalArgumentException("Unsupported operation " + operation.name());
+        };
     }
 
     private  List<String> formatData(List<List<String>> table) {
