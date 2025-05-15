@@ -9,15 +9,16 @@ public class TableDialog {
     public static void showTableInDialogWithPagination(Table table, int rowsPerPage) {
         List<String> headers = table.getHeaders();
         List<List<String>> allRows = table.getRows();
+
         int totalPages = (int) Math.ceil((double) allRows.size() / rowsPerPage);
         JFrame frame = new JFrame();
 
         JDialog dialog = new JDialog(frame, "Table", true);
         dialog.setSize(700, 400);
         dialog.setLocationRelativeTo(null);
-        dialog.setLayout(new BorderLayout());
 
         String[] columnNames = headers.toArray(new String[0]);
+
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         JTable jTable = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(jTable);
@@ -33,7 +34,7 @@ public class TableDialog {
         buttonPanel.add(nextBtn);
         dialog.add(buttonPanel, BorderLayout.SOUTH);
 
-        final int[] currentPage = {0};
+        int[] currentPage = {0};
 
         Runnable updateTable = () -> {
             model.setRowCount(0);

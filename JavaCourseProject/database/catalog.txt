@@ -3,5 +3,3 @@ persons.txt
 jobs.txt
 cities.txt
 organizers.txt
-events_cities_join.txt
-cities_events_join.txt

@@ -8,7 +8,7 @@ public enum DataType {
     },
     DOUBLE {
         public boolean isValid(String value) {
-            return value.equals("NULL") || value.matches("[+-]?\\d+\\.\\d+");
+            return value.equals("NULL") || value.matches("[+-]?\\d+") || value.matches("[+-]?\\d+\\.\\d+");
         }
     },
     STRING {

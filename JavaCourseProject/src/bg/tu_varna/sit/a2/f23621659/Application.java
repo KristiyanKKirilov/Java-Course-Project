@@ -4,9 +4,7 @@ import bg.tu_varna.sit.a2.f23621659.enums.AggregateOperation;
 import bg.tu_varna.sit.a2.f23621659.enums.DataType;
 import bg.tu_varna.sit.a2.f23621659.models.*;
 
-import java.io.Console;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -28,6 +26,7 @@ public class Application {
             List<String> arguments;
 
             int spaceIndex = input.indexOf(" ");
+
             if (spaceIndex != -1) {
                 command = input.substring(0, spaceIndex).toLowerCase();
                 arguments = extractArguments(input.substring(spaceIndex));
@@ -59,7 +58,7 @@ public class Application {
                         String tableName = arguments.get(0);
                         String fileName = tableName + ".txt";
                         Table table = TableManager.createTable(fileManager.readFile(fileName));
-                        TableDialog.showTableInDialogWithPagination(table, 10);
+                        TableDialog.showTableInDialogWithPagination(table, 5);
                         break;
                     }
                     case "export": {
@@ -188,6 +187,7 @@ public class Application {
     private static List<String> extractArguments(String input) {
         List<String> args = new ArrayList<>();
         Matcher matcher = Pattern.compile("<(.*?)>").matcher(input);
+
         while (matcher.find()) {
             args.add(matcher.group(1).trim());
         }

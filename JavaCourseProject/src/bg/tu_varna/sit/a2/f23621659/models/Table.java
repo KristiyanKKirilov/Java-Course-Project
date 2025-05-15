@@ -86,7 +86,6 @@ public class Table {
     public Table selectRowsByColumnValue(int columnIndex, String value) {
         List<List<String>> matchedRows = new ArrayList<>();
 
-
         for (List<String> row : rows) {
             if (columnIndex < row.size() && row.get(columnIndex).equals(value)) {
                 matchedRows.add(row);
