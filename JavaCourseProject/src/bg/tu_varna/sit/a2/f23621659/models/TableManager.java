@@ -23,7 +23,10 @@ public class TableManager {
         }
 
         Table table = new Table(headers, types);
-        table.getRows().addAll(rows);
+        for (List<String> rowData : rows) {
+            table.addRow(rowData);
+        }
+
         return table;
     }
 
@@ -47,14 +50,14 @@ public class TableManager {
 
         Table result = new Table(newHeaders, newTypes);
 
-        for (List<String> row1 : firstTable.getRows()) {
-            List<String> newRow = new ArrayList<>(row1);
+        for (Row row1 : firstTable.getRows()) {
+            List<String> newRow = new ArrayList<>(row1.getValues());
 
             Table secondTableValues = secondTable.selectRowsByColumnValue(secondTableColumnIndex, newRow.get(firstTableColumnIndex));
 
             List<String> rowsToAdd = new ArrayList<>();
             if(!secondTableValues.getRows().isEmpty()) {
-                rowsToAdd = secondTableValues.getRows().getFirst();
+                rowsToAdd = secondTableValues.getRows().getFirst().getValues();
             } else {
                 List<String> nulls = new ArrayList<>();
                 for(int i = 0; i < secondTable.getHeaders().size(); i++) {

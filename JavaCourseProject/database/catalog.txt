@@ -3,8 +3,3 @@ persons.txt
 jobs.txt
 cities.txt
 organizers.txt
-jobs2.txt
-seasons.txt
-seasons.txt
-jobs1.txt
-jobs2.txt

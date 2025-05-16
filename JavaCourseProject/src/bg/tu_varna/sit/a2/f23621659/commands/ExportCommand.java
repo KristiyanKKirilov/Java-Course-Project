@@ -10,7 +10,7 @@ public class ExportCommand implements Command {
     @Override
     public void execute(FileManager fileManager, List<String> args) {
         String tableName = args.get(0);
-        String fileName = args.get(1);
+        String fileName = args  .get(1);
         String tableFileName = tableName + ".txt";
 
         List<String> tableData = fileManager.readFile(tableFileName);

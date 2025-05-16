@@ -9,7 +9,7 @@ import java.util.List;
 public class Table {
     private List<String> headers;
     private List<DataType> types;
-    private List<List<String>> rows;
+    private List<Row> rows;
 
     public Table(List<String> headers, List<DataType> types) {
         this.headers = headers;
@@ -29,32 +29,32 @@ public class Table {
         return types;
     }
 
-    public List<List<String>> getRows() {
+    public List<Row> getRows() {
         return rows;
     }
 
-    public void addRow(List<String> row) throws IllegalArgumentException {
-        if(row.size() != headers.size()) {
+    public void addRow(List<String> rowValues) throws IllegalArgumentException {
+        if(rowValues.size() != headers.size()) {
             throw new IllegalArgumentException("Row size does not match number of columns");
         }
 
-        for (int i = 0; i < row.size(); i++) {
+        for (int i = 0; i < rowValues.size(); i++) {
             DataType type = types.get(i);
-            String value = row.get(i);
+            String value = rowValues.get(i);
 
             if (!type.isValid(value)) {
                 throw new IllegalArgumentException("Invalid value '" + value + "' for type '" + type + "' at column " + headers.get(i));
             }
         }
 
-        rows.add(row);
+        rows.add(new Row(rowValues));
     }
 
     public void addColumn(String columnName, DataType columnType) {
         headers.add(columnName);
         types.add(columnType);
 
-        for (List<String> row : rows) {
+        for (Row row : rows) {
             row.add("NULL");
         }
     }
@@ -63,7 +63,10 @@ public class Table {
         List<List<String>> table = new ArrayList<>();
         table.add(headers);
         table.add(getTypeStrings());
-        table.addAll(rows);
+
+        for (Row row : rows) {
+            table.add(row.getValues());
+        }
 
         return formatData(table);
     }
@@ -74,7 +77,7 @@ public class Table {
         for (int i = 0; i < headers.size(); i++) {
             String header = headers.get(i);
             String type = getTypeStrings().get(i);
-            sb.append(header + " ").append(type);
+            sb.append(header).append(" ").append(type);
 
             if(i != headers.size() - 1)
                 sb.append("\n");
@@ -84,11 +87,11 @@ public class Table {
     }
 
     public Table selectRowsByColumnValue(int columnIndex, String value) {
-        List<List<String>> matchedRows = new ArrayList<>();
+        List<Row> matchedRows = new ArrayList<>();
 
-        for (List<String> row : rows) {
+        for (Row row : rows) {
             if (columnIndex < row.size() && row.get(columnIndex).equals(value)) {
-                matchedRows.add(row);
+                matchedRows.add(new Row(row.getValues()));
             }
         }
 
@@ -120,8 +123,8 @@ public class Table {
             throw new IllegalArgumentException("Invalid value " + targetValue + " for type " + type);
         }
 
-        for (List<String> row :rows) {
-            if(row.get(searchColumnIndex).equals(searchValue)) {
+        for (Row row : rows) {
+            if (row.get(searchColumnIndex).equals(searchValue)) {
                 row.set(targetColumnIndex, targetValue);
             }
         }
@@ -135,8 +138,8 @@ public class Table {
 
         int count = 0;
 
-        for (List<String> row : rows) {
-            if(columnIndex < row.size() && row.get(columnIndex).equals(value)) {
+        for (Row row : rows) {
+            if (columnIndex < row.size() && row.get(columnIndex).equals(value)) {
                 count++;
             }
         }
@@ -161,7 +164,7 @@ public class Table {
 
         List<Double> values = new ArrayList<>();
 
-        for(List<String> row : rows) {
+        for(Row row : rows) {
             String searchColumnValue = row.get(searchColumnIndex);
             String targetColumnValue = row.get(targetColumnIndex);
 
