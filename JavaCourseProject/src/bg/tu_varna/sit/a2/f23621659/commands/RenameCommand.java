@@ -5,10 +5,9 @@ import bg.tu_varna.sit.a2.f23621659.models.FileManager;
 
 import java.util.List;
 
-public class ShowTablesCommand implements Command {
-
+public class RenameCommand implements Command {
     @Override
     public void execute(FileManager fileManager, List<String> args) {
-        fileManager.showTables();
+        fileManager.renameTable(args.get(0), args.get(1));
     }
 }
