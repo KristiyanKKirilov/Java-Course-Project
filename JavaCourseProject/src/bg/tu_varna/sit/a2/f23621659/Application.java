@@ -1,7 +1,8 @@
 package bg.tu_varna.sit.a2.f23621659;
 
+import bg.tu_varna.sit.a2.f23621659.commands.*;
 import bg.tu_varna.sit.a2.f23621659.enums.AggregateOperation;
-import bg.tu_varna.sit.a2.f23621659.enums.DataType;
+import bg.tu_varna.sit.a2.f23621659.interfaces.Command;
 import bg.tu_varna.sit.a2.f23621659.models.*;
 
 import java.util.ArrayList;
@@ -38,95 +39,52 @@ public class Application {
             try {
                 switch (command) {
                     case "import": {
-                        String tableName = arguments.get(0);
-                        String fileName = tableName + ".txt";
-                        fileManager.importTable(fileName);
-                        ConsoleWriter.printDescription("Table imported successfully.");
+                        Command importCommand = new ImportCommand();
+                        importCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "showtables":
-                        fileManager.showTables();
+                        Command showTablesCommand = new ShowTablesCommand();
+                        showTablesCommand.execute(fileManager, arguments);
                         break;
                     case "describe": {
-                        String tableName = arguments.get(0);
-                        String fileName = tableName + ".txt";
-                        Table table = TableManager.createTable(fileManager.readFile(fileName));
-                        ConsoleWriter.printDescription(table.getColumnDescription());
+                        Command describeCommand = new DescribeCommand();
+                        describeCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "print": {
-                        String tableName = arguments.get(0);
-                        String fileName = tableName + ".txt";
-                        Table table = TableManager.createTable(fileManager.readFile(fileName));
-                        TableDialog.showTableInDialogWithPagination(table, 5);
+                       Command printCommand = new PrintCommand();
+                       printCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "export": {
-                        String tableName = arguments.get(0);
-                        String fileName = arguments.get(1);
-                        String tableFileName = tableName + ".txt";
-
-                        List<String> tableData = fileManager.readFile(tableFileName);
-                        fileManager.writeTableInFile(fileName, tableData);
-                        fileManager.writeInCatalogFile("catalog.txt", fileName);
-
-                        ConsoleWriter.printDescription("Table " + tableName + " exported in file " + fileName + " successfully.");
+                        Command exportCommand = new ExportCommand();
+                        exportCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "select": {
-                        int columnIndex = Integer.parseInt(arguments.get(0));
-                        String value = arguments.get(1);
-                        String tableName = arguments.get(2);
-                        Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
-                        TableDialog.showTableInDialogWithPagination(table.selectRowsByColumnValue(columnIndex, value), 10);
+                       Command selectCommand = new SelectCommand();
+                       selectCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "addcolumn": {
-                        String tableName = arguments.get(0);
-                        String columnName = arguments.get(1);
-                        DataType columnType = DataType.fromString(arguments.get(2));
-                        Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
-
-                        table.addColumn(columnName, columnType);
-                        fileManager.updateTableInFile(tableName + ".txt", table.getTableData());
-                        ConsoleWriter.printDescription("Column added successfully.");
+                        Command addColumnCommand = new AddColumnCommand();
+                        addColumnCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "update": {
-                        String tableName = arguments.get(0);
-                        int searchColumnIndex = Integer.parseInt(arguments.get(1));
-                        String searchValue = arguments.get(2);
-                        int targetColumnIndex = Integer.parseInt(arguments.get(3));
-                        String targetValue = arguments.get(4);
-                        Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
-
-                        table.updateRowsByColumnValue(searchColumnIndex, searchValue, targetColumnIndex, targetValue);
-                        fileManager.updateTableInFile(tableName + ".txt", table.getTableData());
-
-                        ConsoleWriter.printDescription("Row updated successfully.");
+                        Command updateCommand = new UpdateCommand();
+                        updateCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "delete": {
-                        String tableName = arguments.get(0);
-                        int searchColumnIndex = Integer.parseInt(arguments.get(1));
-                        String searchValue = arguments.get(2);
-                        Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
-
-                        table.deleteRowsByColumnValue(searchColumnIndex, searchValue);
-                        fileManager.updateTableInFile(tableName + ".txt", table.getTableData());
-
-                        ConsoleWriter.printDescription("Row deleted successfully.");
+                        Command deleteCommand = new DeleteCommand();
+                        deleteCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "insert": {
-                        String tableName = arguments.get(0);
-                        List<String> values = arguments.subList(1, arguments.size());
-                        Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
-
-                        table.addRow(values);
-                        fileManager.updateTableInFile(tableName + ".txt", table.getTableData());
-
-                        ConsoleWriter.printDescription("Row inserted successfully.");
+                       Command insertCommand = new InsertCommand();
+                       insertCommand.execute(fileManager, arguments);
                         break;
                     }
                     case "innerjoin": {
