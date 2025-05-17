@@ -70,7 +70,6 @@ public class TableManager {
             result.addRow(newRow);
         }
 
-
         return result;
     }
 

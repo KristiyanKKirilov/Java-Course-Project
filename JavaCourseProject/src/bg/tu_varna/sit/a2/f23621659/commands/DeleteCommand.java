@@ -19,6 +19,6 @@ public class DeleteCommand implements Command {
         table.deleteRowsByColumnValue(searchColumnIndex, searchValue);
         fileManager.updateTableInFile(tableName + ".txt", table.getTableData());
 
-        ConsoleWriter.printDescription("Row deleted successfully.");
+        ConsoleWriter.printLine("Row deleted successfully.");
     }
 }

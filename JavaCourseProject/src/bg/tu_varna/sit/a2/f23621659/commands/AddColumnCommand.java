@@ -19,6 +19,6 @@ public class AddColumnCommand implements Command {
 
         table.addColumn(columnName, columnType);
         fileManager.updateTableInFile(tableName + ".txt", table.getTableData());
-        ConsoleWriter.printDescription("Column added successfully.");
+        ConsoleWriter.printLine("Column added successfully.");
     }
 }

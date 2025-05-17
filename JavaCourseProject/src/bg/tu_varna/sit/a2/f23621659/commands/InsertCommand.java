@@ -18,6 +18,6 @@ public class InsertCommand implements Command {
         table.addRow(values);
         fileManager.updateTableInFile(tableName + ".txt", table.getTableData());
 
-        ConsoleWriter.printDescription("Row inserted successfully.");
+        ConsoleWriter.printLine("Row inserted successfully.");
     }
 }

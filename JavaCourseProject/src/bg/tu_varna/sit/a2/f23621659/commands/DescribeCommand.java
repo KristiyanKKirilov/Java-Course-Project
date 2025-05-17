@@ -15,6 +15,6 @@ public class DescribeCommand implements Command {
         String fileName = tableName + ".txt";
 
         Table table = TableManager.createTable(fileManager.readFile(fileName));
-        ConsoleWriter.printDescription(table.getColumnDescription());
+        ConsoleWriter.printLine(table.getColumnDescription());
     }
 }

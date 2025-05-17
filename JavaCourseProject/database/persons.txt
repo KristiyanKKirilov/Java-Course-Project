@@ -9,4 +9,9 @@
 | 4        | Robert Cole    | 4     | 2220   |
 | 5        | Alex George    | 2     | 3500   |
 | 6        | Harry Stevens  | 5     | 1900   |
+| 7        | Patrick Bolton | 3     | 4410   |
+| 8        | Tom Hank       | 1     | 3200   |
+| 9        | Robert Johnson | 3     | 3300   |
+| 10       | Laura Jobs     | 3     | 3800   |
+| 11       | Sara Robertson | 3     | 2400   |
 +----------+----------------+-------+--------+

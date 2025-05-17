@@ -21,6 +21,6 @@ public class UpdateCommand implements Command {
         table.updateRowsByColumnValue(searchColumnIndex, searchValue, targetColumnIndex, targetValue);
         fileManager.updateTableInFile(tableName + ".txt", table.getTableData());
 
-        ConsoleWriter.printDescription("Row updated successfully.");
+        ConsoleWriter.printLine("Row updated successfully.");
     }
 }

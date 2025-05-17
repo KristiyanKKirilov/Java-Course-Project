@@ -1,14 +1,13 @@
 package bg.tu_varna.sit.a2.f23621659.commands;
 
 import bg.tu_varna.sit.a2.f23621659.interfaces.Command;
-import bg.tu_varna.sit.a2.f23621659.models.ConsoleWriter;
-import bg.tu_varna.sit.a2.f23621659.models.FileManager;
-import bg.tu_varna.sit.a2.f23621659.models.Table;
-import bg.tu_varna.sit.a2.f23621659.models.TableManager;
+import bg.tu_varna.sit.a2.f23621659.models.*;
 
 import java.util.List;
 
 public class SelectCommand implements Command {
+    private static final int RECORDS_PER_PAGE = 5;
+
     @Override
     public void execute(FileManager fileManager, List<String> args) {
         int columnIndex = Integer.parseInt(args.get(0));
@@ -17,6 +16,9 @@ public class SelectCommand implements Command {
 
         Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
         List<String> tableData = table.selectRowsByColumnValue(columnIndex, value).getTableData();
-        ConsoleWriter.printTables(tableData);
+        Pagination pagination = new Pagination(tableData, RECORDS_PER_PAGE);
+
+        TableVisualiser tableVisualiser = new TableVisualiser();
+        tableVisualiser.display(pagination);
     }
 }

@@ -20,6 +20,6 @@ public class AggregateCommand implements Command {
 
         Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
         double result = table.aggregate(searchColumnIndex, searchColumnValue, targetColumnIndex, operation);
-        ConsoleWriter.printDescription(String.valueOf(result));
+        ConsoleWriter.printLine(String.valueOf(result));
     }
 }
