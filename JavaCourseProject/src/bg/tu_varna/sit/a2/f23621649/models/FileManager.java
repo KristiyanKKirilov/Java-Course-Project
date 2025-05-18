@@ -43,7 +43,7 @@ public class FileManager {
         return lines;
     }
 
-    public void writeTableInFile(String fileName, List<String> content) {
+    public boolean writeTableInFile(String fileName, List<String> content) {
         String path = DATA_FOLDER + fileName;
 
 
@@ -56,7 +56,7 @@ public class FileManager {
 
         if(file.exists()) {
             ErrorHandler.handleTableExistsError(fileName);
-            return;
+            return false;
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))){
@@ -67,6 +67,8 @@ public class FileManager {
         } catch (IOException ex) {
             ErrorHandler.handleIOException(ex, "writing in " + path);
         }
+
+        return true;
     }
 
     public void writeInCatalogFile(String fileName, String content) {

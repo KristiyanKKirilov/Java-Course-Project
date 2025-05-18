@@ -21,9 +21,10 @@ public class InnerJoinCommand implements Command {
         Table joined = TableManager.innerJoinTables(t1, col1, t2, col2);
 
         String joinedName = table1Name + "_" + table2Name;
-        fileManager.writeTableInFile(joinedName + ".txt", joined.getTableData());
-        fileManager.writeInCatalogFile("catalog.txt", joinedName + ".txt");
+        if (!fileManager.writeTableInFile(joinedName + ".txt", joined.getTableData()))
+            return;
 
+        fileManager.writeInCatalogFile("catalog.txt", joinedName + ".txt");
         ConsoleWriter.printLine("Joined table created: " + joinedName);
         ConsoleWriter.printNewLine();
 
