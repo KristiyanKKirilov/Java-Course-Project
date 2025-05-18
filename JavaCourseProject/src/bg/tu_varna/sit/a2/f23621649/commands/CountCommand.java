@@ -18,5 +18,6 @@ public class CountCommand implements Command {
         Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
         int count = table.countRowsByColumnValue(columnIndex, searchValue);
         ConsoleWriter.printLine("Matching rows: " + count);
+        ConsoleWriter.printNewLine();
     }
 }

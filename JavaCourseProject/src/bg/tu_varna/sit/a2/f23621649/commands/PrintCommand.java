@@ -18,6 +18,6 @@ public class PrintCommand implements Command {
 
         TableVisualiser tableVisualiser = new TableVisualiser();
         tableVisualiser.display(pagination);
-
+        ConsoleWriter.printNewLine();
     }
 }

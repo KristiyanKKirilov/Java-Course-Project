@@ -8,6 +8,8 @@ import java.util.List;
 public class RenameCommand implements Command {
     @Override
     public void execute(FileManager fileManager, List<String> args) {
-        fileManager.renameTable(args.get(0), args.get(1));
+        String oldName = args.get(0);
+        String newName = args.get(1);
+        fileManager.renameTable(oldName, newName);
     }
 }

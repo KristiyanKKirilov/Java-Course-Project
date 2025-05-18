@@ -160,12 +160,12 @@ public class FileManager {
         if(success) {
             updateCatalogFile(oldFileName, newFileName);
             ConsoleWriter.printLine("Table " + oldName + " renamed to " + newName);
+            ConsoleWriter.printNewLine();
         } else {
             ErrorHandler.printException("Table file has not been renamed");
+            ConsoleWriter.printNewLine();
         }
     }
-
-
 
     private void updateCatalogFile(String oldFileName, String newFileName) {
         List<String> catalogEntries = readFile(CATALOG_FILE);

@@ -21,5 +21,6 @@ public class AggregateCommand implements Command {
         Table table = TableManager.createTable(fileManager.readFile(tableName + ".txt"));
         double result = table.aggregate(searchColumnIndex, searchColumnValue, targetColumnIndex, operation);
         ConsoleWriter.printLine(String.valueOf(result));
+        ConsoleWriter.printNewLine();
     }
 }

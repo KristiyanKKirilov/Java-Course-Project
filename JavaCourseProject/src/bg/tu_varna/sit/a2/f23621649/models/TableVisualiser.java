@@ -29,9 +29,13 @@ public class TableVisualiser {
                         ConsoleWriter.printLine("Previous page does not exist");
                     }
                 }
-                case "exit" -> running = false;
+                case "exit" -> {
+                    running = false;
+                    ConsoleWriter.printLine("Exited from table view");
+                }
                 default -> ConsoleWriter.printLine("Invalid command");
             }
         }
+
     }
 }

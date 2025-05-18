@@ -13,4 +13,8 @@ public class ConsoleWriter {
         System.out.println(description);
     }
 
+    public static void printNewLine() {
+        System.out.println();
+    }
+
 }

@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.a2.f23621649.commands;
 
 import bg.tu_varna.sit.a2.f23621649.interfaces.Command;
+import bg.tu_varna.sit.a2.f23621649.models.ConsoleWriter;
 import bg.tu_varna.sit.a2.f23621649.models.FileManager;
 import bg.tu_varna.sit.a2.f23621649.models.Table;
 import bg.tu_varna.sit.a2.f23621649.models.TableManager;
@@ -23,6 +24,8 @@ public class InnerJoinCommand implements Command {
         fileManager.writeTableInFile(joinedName + ".txt", joined.getTableData());
         fileManager.writeInCatalogFile("catalog.txt", joinedName + ".txt");
 
-        System.out.println("Joined table created: " + joinedName);
+        ConsoleWriter.printLine("Joined table created: " + joinedName);
+        ConsoleWriter.printNewLine();
+
     }
 }

@@ -17,6 +17,7 @@ public class ExportCommand implements Command {
         fileManager.writeTableInFile(fileName, tableData);
         fileManager.writeInCatalogFile("catalog.txt", fileName);
 
-        ConsoleWriter.printLine("Table " + tableName + " exported in file " + fileName + " successfully.");
+        ConsoleWriter.printLine("Table " + tableName + " exported in file " + fileName + " successfully");
+        ConsoleWriter.printNewLine();
     }
 }
