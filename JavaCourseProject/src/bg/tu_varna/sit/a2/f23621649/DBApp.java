@@ -21,6 +21,7 @@ public class DBApp {
             String input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("exit")) {
+                ConsoleWriter.printLine("Exiting program...");
                 System.exit(0);
             }
 
