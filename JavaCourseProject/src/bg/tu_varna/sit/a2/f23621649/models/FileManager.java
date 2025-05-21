@@ -11,6 +11,9 @@ public class FileManager {
     private static final String CATALOG_FILE = "catalog.txt";
     private final String catalogPath = DATA_FOLDER + CATALOG_FILE;
 
+    private List<String> currentTableContent;
+    private boolean isFileOpen;
+
 
     private FileManager()
     {
@@ -167,6 +170,55 @@ public class FileManager {
             ErrorHandler.printException("Table file has not been renamed");
             ConsoleWriter.printNewLine();
         }
+    }
+
+    public void openFile(String fileName) {
+        if (isFileOpen) {
+            ErrorHandler.printException("Another file is already open. Please close it first.");
+            return;
+        }
+
+        List<String> content = readFile(fileName);
+        if (content.isEmpty()) {
+            ErrorHandler.printException("File is empty or does not exist.");
+            return;
+        }
+
+        this.currentTableContent = content;
+        this.isFileOpen = true;
+
+        ConsoleWriter.printLine("File " + fileName + " opened successfully.");
+    }
+
+    public void closeFile() {
+        if (!isFileOpen) {
+            ErrorHandler.printException("No file is currently open.");
+            return;
+        }
+
+        this.isFileOpen = false;
+        ConsoleWriter.printLine("File closed successfully.");
+    }
+
+    public void saveFile() {
+        if (!isFileOpen) {
+            ErrorHandler.printException("No file is currently open.");
+            return;
+        }
+
+        ConsoleWriter.printLine("File saved.");
+    }
+
+    public void saveAsFile(String newFileName) {
+        if (!isFileOpen) {
+            ErrorHandler.printException("No file is currently open.");
+            return;
+        }
+
+        writeTableInFile(newFileName, currentTableContent);
+        writeInCatalogFile(CATALOG_FILE, newFileName);
+
+        ConsoleWriter.printLine("Saved as new file: " + newFileName);
     }
 
     private void updateCatalogFile(String oldFileName, String newFileName) {

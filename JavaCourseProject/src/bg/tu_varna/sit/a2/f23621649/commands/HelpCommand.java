@@ -18,6 +18,11 @@ public class HelpCommand implements Command {
         sb.append(" AVAILABLE COMMANDS:\n\n");
 
         sb.append(" FILE COMMANDS:\n");
+        sb.append("  open <filename>       : Open a file from the 'database/' folder\n");
+        sb.append("  close                 : Close the currently open file\n");
+        sb.append("  save                  : Save changes to the currently open file\n");
+        sb.append("  saveas <newfilename>  : Save current file content to a new file\n");
+
         sb.append("  import <filename>             - Imports a new table from the 'imports/' folder. Fails if table name exists.\n");
         sb.append("  export <name> <filename>      - Exports a table to a specified file.\n");
         sb.append("  rename <old> <new>            - Renames a table file. New name must be unique.\n");

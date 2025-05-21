@@ -25,6 +25,10 @@ public class CommandFactory {
         commands.put("count", new CountCommand());
         commands.put("aggregate", new AggregateCommand());
         commands.put("help", new HelpCommand());
+        commands.put("open", new OpenCommand());
+        commands.put("close", new CloseCommand());
+        commands.put("save", new SaveCommand());
+        commands.put("saveas", new SaveAsCommand());
     }
 
     public static Command getCommand(String name) {
