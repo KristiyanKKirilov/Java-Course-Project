@@ -13,7 +13,8 @@ public class FileManager {
 
     private List<String> currentTableContent;
     private boolean isFileOpen;
-
+    private String openedFileName; // Track opened file
+    private boolean isModified;    // Optional: track if changes were made
 
     private FileManager()
     {
@@ -172,22 +173,35 @@ public class FileManager {
         }
     }
 
+    public boolean validateOpenedFile(String fileName) {
+        return isFileOpen && (openedFileName != null && openedFileName.equals(fileName));
+    }
+
     public void openFile(String fileName) {
         if (isFileOpen) {
             ErrorHandler.printException("Another file is already open. Please close it first.");
             return;
         }
 
-        List<String> content = readFile(fileName);
-        if (content.isEmpty()) {
-            ErrorHandler.printException("File is empty or does not exist.");
-            return;
+        File file = new File(DATA_FOLDER + fileName);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+                writeInCatalogFile(catalogPath, fileName);
+                ConsoleWriter.printLine("File did not exist, created new file: " + fileName);
+            } catch (IOException ex) {
+                ErrorHandler.handleIOException(ex, "creating new file " + fileName);
+                return;
+            }
         }
 
+        List<String> content = readFile(fileName);
         this.currentTableContent = content;
+        this.openedFileName = fileName;
         this.isFileOpen = true;
+        this.isModified = false;
 
-        ConsoleWriter.printLine("File " + fileName + " opened successfully.");
+        ConsoleWriter.printLine("Successfully opened " + fileName);
     }
 
     public void closeFile() {
@@ -196,8 +210,16 @@ public class FileManager {
             return;
         }
 
-        this.isFileOpen = false;
-        ConsoleWriter.printLine("File closed successfully.");
+        if (isModified) {
+            ConsoleWriter.printLine("Warning: You have unsaved changes.");
+        }
+
+        currentTableContent = null;
+        openedFileName = null;
+        isFileOpen = false;
+        isModified = false;
+
+        ConsoleWriter.printLine("Successfully closed file.");
     }
 
     public void saveFile() {
@@ -206,7 +228,10 @@ public class FileManager {
             return;
         }
 
-        ConsoleWriter.printLine("File saved.");
+        updateTableInFile(openedFileName, currentTableContent);
+        isModified = false;
+
+        ConsoleWriter.printLine("Successfully saved " + openedFileName);
     }
 
     public void saveAsFile(String newFileName) {
@@ -215,10 +240,36 @@ public class FileManager {
             return;
         }
 
-        writeTableInFile(newFileName, currentTableContent);
-        writeInCatalogFile(CATALOG_FILE, newFileName);
+        boolean success = writeTableInFile(newFileName, currentTableContent);
+        if (success) {
+            writeInCatalogFile(CATALOG_FILE, newFileName);
+            ConsoleWriter.printLine("Successfully saved " + newFileName);
+        }
+    }
 
-        ConsoleWriter.printLine("Saved as new file: " + newFileName);
+    public boolean isFileOpen() {
+        return isFileOpen;
+    }
+
+    public boolean isModified() {
+        return isModified;
+    }
+
+    public void setModified(boolean modified) {
+        isModified = modified;
+    }
+
+    public List<String> getCurrentTableContent() {
+        return currentTableContent;
+    }
+
+    public void setCurrentTableContent(List<String> content) {
+        this.currentTableContent = content;
+        setModified(true);
+    }
+
+    public String getOpenedFileName() {
+        return openedFileName;
     }
 
     private void updateCatalogFile(String oldFileName, String newFileName) {

@@ -10,5 +10,6 @@ public class CloseCommand implements Command {
     @Override
     public void execute(FileManager fileManager, List<String> args) {
         fileManager.closeFile();
+        ConsoleWriter.printNewLine();
     }
 }

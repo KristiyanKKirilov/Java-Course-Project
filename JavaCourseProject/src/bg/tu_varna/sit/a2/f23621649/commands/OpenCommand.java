@@ -12,5 +12,6 @@ public class OpenCommand implements Command {
         String tableName = args.getFirst();
         String fileName = tableName + ".txt";
         fileManager.openFile(fileName);
+        ConsoleWriter.printNewLine();
     }
 }

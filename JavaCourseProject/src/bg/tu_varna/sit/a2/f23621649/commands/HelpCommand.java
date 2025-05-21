@@ -59,6 +59,7 @@ public class HelpCommand implements Command {
         sb.append("  - Paging commands (next, prev, exit) are supported during table viewing.\n");
 
         ConsoleWriter.printLine(sb.toString());
+        ConsoleWriter.printNewLine();
     }
 
 }

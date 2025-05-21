@@ -11,5 +11,6 @@ public class SaveAsCommand implements Command {
     public void execute(FileManager fileManager, List<String> args) {
         String fileName = args.getFirst();
         fileManager.saveAsFile(fileName);
+        ConsoleWriter.printNewLine();
     }
 }
