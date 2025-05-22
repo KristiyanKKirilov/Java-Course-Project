@@ -13,7 +13,6 @@ public class ImportCommand implements Command {
         String fileName = tableName + ".txt";
 
         fileManager.importTable(fileName);
-        ConsoleWriter.printLine("Table imported successfully");
         ConsoleWriter.printNewLine();
     }
 }

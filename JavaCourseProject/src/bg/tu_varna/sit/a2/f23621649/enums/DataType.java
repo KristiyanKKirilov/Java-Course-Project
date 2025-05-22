@@ -14,7 +14,6 @@ public enum DataType {
     STRING {
         public boolean isValid(String value) {
             return value.equals("NULL") || !value.isBlank();
-//                    || value.matches("\"(\\\\.|[^\"\\\\])*\"");
         }
     };
 

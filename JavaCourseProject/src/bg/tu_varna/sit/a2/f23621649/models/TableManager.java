@@ -55,7 +55,7 @@ public class TableManager {
 
             Table secondTableValues = secondTable.selectRowsByColumnValue(secondTableColumnIndex, newRow.get(firstTableColumnIndex));
 
-            List<String> rowsToAdd = new ArrayList<>();
+            List<String> rowsToAdd;
             if(!secondTableValues.getRows().isEmpty()) {
                 rowsToAdd = secondTableValues.getRows().getFirst().getValues();
             } else {

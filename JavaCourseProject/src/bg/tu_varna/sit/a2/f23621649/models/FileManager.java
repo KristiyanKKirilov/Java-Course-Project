@@ -13,8 +13,8 @@ public class FileManager {
 
     private List<String> currentTableContent;
     private boolean isFileOpen;
-    private String openedFileName; // Track opened file
-    private boolean isModified;    // Optional: track if changes were made
+    private String openedFileName;
+    private boolean isModified;
 
     private FileManager()
     {
@@ -121,6 +121,8 @@ public class FileManager {
                 writer.write(fileName);
                 writer.newLine();
             }
+            ConsoleWriter.printLine("Table imported successfully");
+
 
         } catch (IOException ex) {
             ErrorHandler.handleIOException(ex, "importing table from " + importPath);

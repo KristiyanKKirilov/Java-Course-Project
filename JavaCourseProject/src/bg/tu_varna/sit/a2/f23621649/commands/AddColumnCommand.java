@@ -22,7 +22,9 @@ public class AddColumnCommand implements Command {
         Table table = TableManager.createTable(fileManager.readFile(fileName));
 
         table.addColumn(columnName, columnType);
-        fileManager.updateTableInFile(fileName, table.getTableData());
+        fileManager.setCurrentTableContent(table.getTableData());
+
         ConsoleWriter.printLine("Column added successfully (uncommitted)");
+        ConsoleWriter.printNewLine();
     }
 }

@@ -14,9 +14,6 @@
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
   <icon></icon>
-  <classPath>
-    <mainClass>bg.tu_varna.sit.a2.f23621649.Application</mainClass>
-  </classPath>
   <jre>
     <path>%JAVA_HOME%;%PATH%</path>
     <requiresJdk>false</requiresJdk>
