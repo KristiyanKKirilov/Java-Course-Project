@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класът FileManager отговаря за управление на файлове и таблици в директорията на базата от данни.
+ * Реализира Singleton модел.
+ */
 public class FileManager {
     private static FileManager instance;
     private static final String DATA_FOLDER = "database/";
@@ -20,6 +24,11 @@ public class FileManager {
     {
     }
 
+    /**
+     * Връща инстанцията на FileManager.
+     *
+     * @return инстанцията (Singleton)
+     */
     public static FileManager getInstance() {
         if(instance == null)
         {
@@ -29,6 +38,12 @@ public class FileManager {
         return  instance;
     }
 
+    /**
+     * Чете файл от папката database.
+     *
+     * @param fileName Името на файла
+     * @return Списък със съдържанието на файла
+     */
     public List<String> readFile(String fileName)  {
         List<String> lines = new ArrayList<>();
         String path = DATA_FOLDER + fileName;
@@ -47,6 +62,13 @@ public class FileManager {
         return lines;
     }
 
+    /**
+     * Записва таблица във файл, ако файлът не съществува.
+     *
+     * @param fileName Име на файла
+     * @param content Съдържание за запис
+     * @return true ако успешно, иначе false
+     */
     public boolean writeTableInFile(String fileName, List<String> content) {
         String path = DATA_FOLDER + fileName;
 
@@ -75,6 +97,12 @@ public class FileManager {
         return true;
     }
 
+    /**
+     * Добавя запис във файла catalog.txt.
+     *
+     * @param fileName Името на файла (за логове)
+     * @param content Съдържание за добавяне
+     */
     public void writeInCatalogFile(String fileName, String content) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(catalogPath, true))) {
                 writer.write(content);
@@ -85,6 +113,12 @@ public class FileManager {
 
     }
 
+    /**
+     * Обновява съдържанието на таблица във файл.
+     *
+     * @param fileName Името на файла
+     * @param content Новото съдържание
+     */
     public void updateTableInFile(String fileName, List<String> content) {
         String path = DATA_FOLDER + fileName;
 
@@ -103,6 +137,11 @@ public class FileManager {
         }
     }
 
+    /**
+     * Вмъква таблица от папка imports и я добавя в catalog.txt.
+     *
+     * @param fileName Името на файла за импортиране
+     */
     public void importTable(String fileName) {
         String importPath = IMPORT_FOLDER + fileName;
 
@@ -129,6 +168,9 @@ public class FileManager {
         }
     }
 
+    /**
+     * Извежда всички таблици, записани в catalog.txt.
+     */
     public void showTables() {
         String catalogPath = DATA_FOLDER + CATALOG_FILE;
         List<String> content = new ArrayList<>();
@@ -146,6 +188,12 @@ public class FileManager {
         ConsoleWriter.printLines(content);
     }
 
+    /**
+     * Преименува таблица и обновява catalog.txt.
+     *
+     * @param oldName Старото име (без разширение)
+     * @param newName Новото име (без разширение)
+     */
     public void renameTable(String oldName, String newName) {
         String oldFileName = oldName + ".txt";
         String newFileName = newName + ".txt";
@@ -175,10 +223,21 @@ public class FileManager {
         }
     }
 
+    /**
+     * Проверява дали даден файл е текущо отвореният.
+     *
+     * @param fileName Името на файла
+     * @return true ако е отворен и съвпада, иначе false
+     */
     public boolean validateOpenedFile(String fileName) {
         return isFileOpen && (openedFileName != null && openedFileName.equals(fileName));
     }
 
+    /**
+     * Отваря файл. Ако не съществува, го създава.
+     *
+     * @param fileName Името на файла
+     */
     public void openFile(String fileName) {
         if (isFileOpen) {
             ErrorHandler.printException("Another file is already open. Please close it first.");
@@ -206,6 +265,9 @@ public class FileManager {
         ConsoleWriter.printLine("Successfully opened " + fileName);
     }
 
+    /**
+     * Затваря текущия файл.
+     */
     public void closeFile() {
         if (!isFileOpen) {
             ErrorHandler.printException("No file is currently open.");
@@ -224,6 +286,9 @@ public class FileManager {
         ConsoleWriter.printLine("Successfully closed file.");
     }
 
+    /**
+     * Записва текущите промени във файла.
+     */
     public void saveFile() {
         if (!isFileOpen) {
             ErrorHandler.printException("No file is currently open.");
@@ -236,6 +301,11 @@ public class FileManager {
         ConsoleWriter.printLine("Successfully saved " + openedFileName);
     }
 
+    /**
+     * Записва текущото съдържание в нов файл.
+     *
+     * @param newFileName Новото име на файла
+     */
     public void saveAsFile(String newFileName) {
         if (!isFileOpen) {
             ErrorHandler.printException("No file is currently open.");
@@ -249,31 +319,33 @@ public class FileManager {
         }
     }
 
-    public boolean isFileOpen() {
-        return isFileOpen;
-    }
-
-    public boolean isModified() {
-        return isModified;
-    }
-
+    /**
+     * Задава състоянието на модификация на текущия файл.
+     *
+     * @param modified true ако има промени
+     */
     public void setModified(boolean modified) {
         isModified = modified;
     }
 
-    public List<String> getCurrentTableContent() {
-        return currentTableContent;
-    }
 
+    /**
+     * Задава ново съдържание и маркира файла като модифициран.
+     *
+     * @param content новото съдържание
+     */
     public void setCurrentTableContent(List<String> content) {
         this.currentTableContent = content;
         setModified(true);
     }
 
-    public String getOpenedFileName() {
-        return openedFileName;
-    }
 
+    /**
+     * Обновява каталожния файл след преименуване на таблица.
+     *
+     * @param oldFileName Старото име
+     * @param newFileName Новото име
+     */
     private void updateCatalogFile(String oldFileName, String newFileName) {
         List<String> catalogEntries = readFile(CATALOG_FILE);
 
